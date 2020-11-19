@@ -1,0 +1,200 @@
+@media only screen and (min-width: 900px) {
+    body {     
+        header {
+            display: flex;
+            flex-direction: row;
+            .logo {
+                margin-left:100px;
+            }
+        nav {
+            flex-direction: row;
+            background-color: white;
+            height: 95px;
+            position: relative;
+            .label-icon {
+                display: none;
+            }
+            .span-icon {
+                display: none;
+            }
+            .menu {
+                min-height: 95px;
+                margin-right: 40px;
+                flex-direction: row;
+                background: white;
+                justify-content: flex-end;
+                li { 
+                    padding: 0 30px;
+                    a {  
+                        position: relative;
+                        color: $violeta;
+                        font-weight: bold;
+                        text-transform: uppercase; 
+                        display: flex;
+                        height: 30px;
+                        align-items: center;
+                    }
+                    a {
+                        img {
+                        display: inline-block;
+                        width: 50px;
+                        border-bottom: none;
+                    }
+                    
+                }
+                
+                }
+                
+                a:hover{
+                    border-bottom: 2px solid $celeste;     
+                } 
+                .create:hover{
+                    border-bottom: transparent;
+                }
+                .create:hover img {
+                    content: url('../img/desktop/DAY/CTA-crear-gifo-hover.svg');
+                }
+                .create:active img {
+                    content: url('../img/desktop/DAY/CTA-crear-gifo-active.svg');
+                }
+                a:active {
+                    color: $text-gray;
+                    border-bottom: transparent;
+                }
+                
+            }
+        }
+    }
+
+    #result-container {
+        flex-direction: row;
+        position: relative;
+        .title {
+            width: 100%;
+            position: absolute;
+            top: 0;
+        }
+        .containerImg {
+            margin-top: 50px;
+            clear: both;
+        }
+    }
+
+    //FAVORITOS 
+
+    .favoritos {
+        #favoritos-section {
+            flex-direction: row;
+        }
+        
+     }
+     // FIN FAVORITOS
+
+
+    .section-two {
+        .trending-two { 
+            .slider-and-gifs {
+                justify-content: center;
+            }
+            #trending-gif {
+                width: 900px; 
+                overflow-x: unset;
+                justify-content: center;
+            }
+            .trending-gif::-webkit-scrollbar {
+                display: none;
+            }
+            
+            #slider1 {
+                display: inline;
+                cursor: pointer;
+            }
+
+            #slider2 {
+                display: inline;
+                cursor: pointer;
+            }
+
+            #slider1:hover{
+                content: url("../img/desktop/DAY/button-slider-left-hover.svg");
+            }
+            #slider2:hover{
+                content: url("../img/desktop/DAY/button-slider-right-hover.svg");
+            }
+
+        }
+    }
+
+        footer {
+            display: flex;
+            justify-content: space-between;
+            .social-media {
+                width: 30%;
+                margin-left: 100px;
+                display: flex;
+                flex-direction: row;
+                .icons-footer {
+                    margin: 0;
+                    align-items: unset;
+                    i:hover {
+                        color: $violeta;
+                    }
+                }
+            }
+            .bottom {
+                margin-right: 100px;
+                font-weight: bold;
+            }
+        }
+
+
+
+}
+.modoNoche {
+        header { 
+            nav{
+            background-color: $background-noc;
+            .menu {
+                background-color: $background-noc;
+                li {
+                    a {
+                        color: white;
+                        border: none;
+                        img {
+                            content: url('../img/desktop/NIGHT/CTA-crear-gifo-modo-noc.svg');
+                        }
+                    }
+                    a:hover{
+                        border-bottom: 2px solid $celeste;     
+                    } 
+                    .create:hover img{
+                        content: url('../img/desktop/NIGHT/CTA-crear-gifo-hover-modo-noc.svg');
+                    }
+                    .create:hover {
+                        border-bottom: transparent;
+                    }
+                    .create:active img {
+                        content: url('../img/desktop/NIGHT/CTA-crear-gifo-active-modo-noc.svg');
+                    }
+                    a:active {
+                        color: $text-gray;
+                        border-bottom: transparent;
+                    }
+
+                }
+            }
+        }
+    }
+
+    #slider1 {
+        content: url('../img/desktop/NIGHT/button-slider-left-md-noct.svg');
+        
+    }
+
+    #slider2 {
+        content: url('../img/desktop/NIGHT/button-slider-right-md-noct.svg');
+    }
+
+}
+
+}
