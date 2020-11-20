@@ -5,14 +5,21 @@ async function traerTrendingTerms() {
     let resp= await fetch(url_terms);
     let json= await resp.json();
     
-    for (let x=0; x<5; x++) {
+    for (let x=0; x<=4; x++) {
         let trendingTerms= document.createElement('div');
         trendingTerms.setAttribute('id', 'trending-terms');
         let txt;
+        let stringUno= json.data[x];
+        let arrayString = stringUno.split(" ");
+        for (let i = 0; i < arrayString.length; i++) {
+            arrayString[i] = arrayString[i][0].toUpperCase() + arrayString[i].substr(1);
+        }
+        let newString= arrayString.join(" ");
+  
         if (x!=4) {
-            txt= '<h3 onclick="buscarTerm(event)">' + json.data[x]+ ',' +'</h3>';
+            txt= '<h3 onclick="buscarTerm(event)">' + newString + ',' +'</h3>';
         } else {
-            txt= '<h3 onclick="buscarTerm(event)">' +json.data[x] + '</h3>';
+            txt= '<h3 onclick="buscarTerm(event)">' + newString + '</h3>';
         }
         trendingTerms.innerHTML= txt;
         trendingOne.appendChild(trendingTerms);

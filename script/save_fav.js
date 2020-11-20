@@ -5,22 +5,35 @@ let botonesPagina= document.getElementById('botones-pagina');
 //Aca tendría que estar la funcion agregando en el caso de que magicamente
 //me deje de funcionar todo
 
+function cargarPagina() { 
+if (!localStorage.getItem('favArray') || localStorage.getItem('favArray')== "[]") {
+    //Decir que no agregaste ningun favorito
+    favVacio.style.display= 'flex';
+    botonesPagina.style.display= "none";
+    botonesPagina.classList.remove('active');
+} else {
+    favVacio.style.display= 'none';
+    favoritoSection.innerHTML= "";
+    let favALleno= localStorage.getItem('favArray');
+    let favArrayLleno= favALleno.split(','); //El localStorage te devuelve un string por eso lo paso a array
+    let myRegex= /[a-z0-9]/gi; 
+    var filtrado= [];
+    favArrayLleno.filter((x) => {
+        filtrado.push(x.match(myRegex).join(''));
+    });
+    mostrarFav(0, 12);
+}
+
+}
+
 function mostrarFav (offset, limit) { 
-    if (!localStorage.getItem('favArray') || localStorage.getItem('favArray')== "[]") {
-        //Decir que no agregaste ningun favorito
-        favVacio.style.display= 'flex';
-        botonesPagina.style.display= "none";
-        botonesPagina.classList.remove('active');
-    } else {
-        favVacio.style.display= 'none';
-        favoritoSection.innerHTML= "";
-        let favALleno= localStorage.getItem('favArray');
-        let favArrayLleno= favALleno.split(','); //El localStorage te devuelve un string por eso lo paso a array
-        let myRegex= /[a-z0-9]/gi; 
-        let filtrado= [];
-        favArrayLleno.filter((x) => {
-            filtrado.push(x.match(myRegex).join(''));
-        });
+    let favALleno= localStorage.getItem('favArray');
+    let favArrayLleno= favALleno.split(','); //El localStorage te devuelve un string por eso lo paso a array
+    let myRegex= /[a-z0-9]/gi; 
+    var filtrado= [];
+    favArrayLleno.filter((x) => {
+        filtrado.push(x.match(myRegex).join(''));
+    });
         let src;
         let names;
         let id_gif;
@@ -81,7 +94,7 @@ function mostrarFav (offset, limit) {
             .catch(err=> console.log(err));
         }  
                 
-    }
+    
 }
 
 function eliminarFav(event, id) {
@@ -89,6 +102,7 @@ function eliminarFav(event, id) {
     let imagenA= event.target; //Accedo a la etiqueta que contiene la función elimnarFav
 
     if (imagenA.classList.contains('active')) { //Chequeo si la etiqueta contiene la clase 'active'
+        imagenA.classList.remove('active');
         let favArrayLleno= localActual.split(','); //El localStorage te devuelve un string
         let myRegex= /[a-z0-9]/gi; //Por eso lo paso a array
         let filtrado= [];
@@ -101,20 +115,16 @@ function eliminarFav(event, id) {
         localStorage.setItem('favArray', JSON.stringify(localNuevo)); //Nuevo array en localStorage 
         //con el id seleccionado eliminado
         favoritoSection.innerHTML= "";
+        
+        getTrendings(0, 3);
+
         if (!localStorage.getItem('favArray') || localStorage.getItem('favArray') == '[]') {
             botonesPagina.style.display= "none";
             botonesPagina.classList.remove('active');
         }
-    
-    //Eliminar del localStorage el corazón violeta que indica que 
-    // un elemento ha sido marcado como favorito
         
-    // nuevoImagenes= idImagenes.filter((x)=> x!=idImagen);
-    // localStorage.setItem('idImagenes', JSON.stringify(nuevoImagenes));
-    
-    //
-
-        mostrarFav(0, 12);
+        
+        cargarPagina();
     }
 
 }

@@ -906,10 +906,16 @@ header nav .checkbox-button:checked ~ .label-icon .span-icon:after {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  position: relative;
+}
+
+.crear .main-crear .cuadrado .main #empezando-a-grabar {
+  display: none;
 }
 
 .crear .main-crear .cuadrado .main .title {
   text-align: center;
+  line-height: 35px;
 }
 
 .crear .main-crear .cuadrado .main h3 {
@@ -917,7 +923,7 @@ header nav .checkbox-button:checked ~ .label-icon .span-icon:after {
   font-size: 16px;
   color: #000000;
   text-align: center;
-  line-height: 23px;
+  line-height: 29px;
   font-weight: 500;
 }
 
@@ -1061,12 +1067,35 @@ header nav .checkbox-button:checked ~ .label-icon .span-icon:after {
   cursor: pointer;
 }
 
+.crear .footer-crear #botonParaGrabar {
+  display: none;
+}
+
+.crear .footer-crear #botonParaFinalizar {
+  display: none;
+}
+
+.crear .footer-crear #botonParaSubir {
+  display: none;
+}
+
 .crear .icon-pelicula {
   width: 20%;
   padding-left: 60px;
   -ms-flex-item-align: end;
       align-self: flex-end;
   padding-bottom: 150px;
+}
+
+.crear #empezando-a-grabar {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.crear #video {
+  width: inherit;
+  height: inherit;
 }
 
 .section-two {

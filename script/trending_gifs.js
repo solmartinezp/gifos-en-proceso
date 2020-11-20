@@ -5,45 +5,71 @@ let slider2= document.getElementById('slider2');
 let trending_gif= document.getElementById('trending-gif');
 
 function getTrendings(limit, offset) { 
-let url_trending = `https://api.giphy.com/v1/gifs/trending?api_key=${api_key}&limit=${limit}&offset=${offset}`; 
-fetch (url_trending)
-    .then ( r => {
-        return r.json();
-    })
-    .then ( g => {
-        for (let x= 0; x<g.data.length; x++) {
-            let containerImg= document.createElement('div');
-            containerImg.classList.add('containerImg');
-            let giph= document.createElement('img');
-            giph.classList.add('foto-s2');
-            giph.setAttribute('src', g.data[x].images.original.url);
-            trending_gif.appendChild(containerImg);
-            containerImg.appendChild(giph);
-            
-            //Agregar hover
-            let divHover= document.createElement('div');
-            let txt="<div class='icons-hover'><img id='imagen"+[x]+"' class='icons-gif' onclick='agregando("+ 'event,"' + g.data[x].id + '"' +")' src='img/desktop/DAY/icons/icon-fav.svg' alt='Icon Fav'/>" + 
-                                "<img class='icons-gif' onclick='downloadGif("+ 'event,"' + g.data[x].images.original.url + '"' +")' src='img/desktop/DAY/icons/icon-download.svg' alt='Icon Fav'/>" +
-                                "<img class='icons-gif' onclick='expandir("+ 'event,"' + g.data[x].id + '"' +")' src='img/desktop/DAY/icons/icon-max-normal.svg' alt='Icon Fav'/></div>" +
-                                "<div class='text-hover'> <h3>User</h3>" +
-                                "<h2>"+g.data[x].title+"</h2></div>";
-                divHover.innerHTML= txt;
-                divHover.classList.add("hoverContent");
-                containerImg.appendChild(divHover);
-        }
-        if (!localStorage.getItem('idImagenes') || localStorage.getItem('idImagenes') == '[]') {
-            console.log('no hay corazones violetas');
-                if(typeof(mostrarFav) == 'function') { 
-                    mostrarFav(0, 12);
+    console.log('probando');
+    //Antes de crear el hover voy a tener que chequear si el localStorage tiene 
+    //elementos faveados. 
+    // Declaro una varaible let src; sin ningún valor. 
+    //Si localStorage no tiene nada, entonces cambio la variable src a la imagen del
+    // corazón vacío, SINO cambio la variable src a la imagen del corazón pintado
+    //y le agrego src como variable al hover 
+
+    //Esto lo tengo que hacer en todas las funciones que dibujen un hover:
+    // getTrendings()
+    // mostrarFav()
+    // buscar en search_gif
+    let url_trending = `https://api.giphy.com/v1/gifs/trending?api_key=${api_key}&limit=${limit}&offset=${offset}`; 
+    fetch (url_trending)
+        .then ( r => {
+            return r.json();
+        })
+        .then ( g => {
+            for (let x= 0; x<g.data.length; x++) {
+                let containerImg= document.createElement('div');
+                containerImg.classList.add('containerImg');
+                let giph= document.createElement('img');
+                giph.classList.add('foto-s2');
+                giph.setAttribute('src', g.data[x].images.original.url);
+                trending_gif.appendChild(containerImg);
+                containerImg.appendChild(giph);
+                
+                //Agregar hover
+                let divHover= document.createElement('div');
+                let sourceFavorito;
+                let clase;
+                if (!localStorage.getItem('favArray') || localStorage.getItem('favArray')== '[]') { //Si no hay nada guardado en Fav
+                    sourceFavorito= "img/desktop/DAY/icons/icon-fav.svg";
+                    clase= '';
+                } else {
+                    let favArray= localStorage.getItem('favArray');
+                    let favArrayLleno= favArray.split(','); //El localStorage te devuelve un string
+                    let myRegex= /[a-z0-9]/gi; //Por eso lo paso a array
+                    let filtrado= [];
+                    favArrayLleno.filter((x) => {
+                        filtrado.push(x.match(myRegex).join(''));
+                    });
+                    let incluidoId= filtrado.includes(g.data[x].id);
+                    if (incluidoId) {
+                        sourceFavorito= "img/desktop/DAY/icons/icon-fav-active.svg";
+                    } else {
+                        clase= '';
+                        sourceFavorito= "img/desktop/DAY/icons/icon-fav.svg";
+                    } 
                 }
-            } else {
-                console.log('si hay corazones violetas');    
-                gifFaveados();
+
+                let txt="<div class='icons-hover'><img id='imagen"+[x]+"' class='icons-gif "+ clase+"' onclick='agregando("+ 'event,"' + g.data[x].id + '"' +")' src='"+ sourceFavorito+ "' alt='Icon Fav'/>" + 
+                                    "<img class='icons-gif' onclick='downloadGif("+ 'event,"' + g.data[x].images.original.url + '"' +")' src='img/desktop/DAY/icons/icon-download.svg' alt='Icon Fav'/>" +
+                                    "<img class='icons-gif' onclick='expandir("+ 'event,"' + g.data[x].id + '"' +")' src='img/desktop/DAY/icons/icon-max-normal.svg' alt='Icon Fav'/></div>" +
+                                    "<div class='text-hover'> <h3>User</h3>" +
+                                    "<h2>"+g.data[x].title+"</h2></div>";
+                    divHover.innerHTML= txt;
+                    divHover.classList.add("hoverContent");
+                    containerImg.appendChild(divHover);
+                    console.log('me termine de dibujar');
             }
-    })
-    .catch ( e => {
-        console.log(e);
-    });
+        })
+        .catch ( e => {
+            console.log(e);
+        });
 }
 
 if (window.screen.width < 900) {
@@ -63,44 +89,20 @@ function moverSlides(num){
    }  
 }
 
-function gifFaveados() { 
-    console.log('intento acceder al coso');
-    let arrayDeId= localStorage.getItem('idImagenes');
-    if (!arrayDeId || arrayDeId != '[]') {
-       let newArr= arrayDeId.replace(/[\[\]"]+/g, "");
-       let arrId= newArr.split(',');
-       for(let i=0; i<arrId.length; i++) {
-           let elementFaveado= document.getElementById(arrId[i]);
-           elementFaveado.setAttribute('src', 'img/desktop/DAY/icons/icon-fav-active.svg');
-           elementFaveado.classList.add('elementoActivo');
-       }
-    }
-    if(typeof(mostrarFav) == 'function') { 
-        mostrarFav(0, 12);
-    }
-}
 
 function agregando(event, id) {
     console.log('agregando gif');
     //CAMBIAR EL ICON CUANDO ESTA MARCADO COMO FAVORITO
     let elementFav= event.target; 
-    let idImagen= elementFav.getAttribute('id'); 
-    let idImagenes= localStorage.getItem('idImagenes');
-       if (idImagenes == null) {
-           idImagenes= [];
-       } else {
-           idImagenes= JSON.parse(idImagenes);
-       }
-       let repetidoId= idImagenes.includes(idImagen);
-       if (repetidoId) {
-        console.log('ya ta');
-        nuevoImagenes= idImagenes.filter((x)=> x!=idImagen);
-        localStorage.setItem('idImagenes', JSON.stringify(nuevoImagenes));
-       } else {
-        idImagenes.push(idImagen); //Previene la repetición de IDs en el array
-        localStorage.setItem('idImagenes', JSON.stringify(idImagenes));  
-       }
-        
+
+    let chequearSrc= elementFav.getAttribute('src'); 
+    if (chequearSrc== "img/desktop/DAY/icons/icon-fav.svg") {
+        elementFav.setAttribute('src', "img/desktop/DAY/icons/icon-fav-active.svg");
+        elementFav.classList.add('elementoActivo');
+    } else {
+        elementFav.setAttribute('src', "img/desktop/DAY/icons/icon-fav.svg");
+        elementFav.classList.remove('elementoActivo');
+    }
         
     //GUARDAR EL ID DE LOS GIFS MARCADOS COMO FAVORITO
     favArray= localStorage.getItem('favArray');
@@ -115,34 +117,16 @@ function agregando(event, id) {
     let repetidoIdFav= favArray.includes(id);
        if (repetidoIdFav) {
         console.log('ya ta');
+        let nuevoArr= favArray.filter((x)=> x != id);
+        favArray= nuevoArr;
        } else {
         favArray.push(id);
        }
 
     localStorage.setItem('favArray', JSON.stringify(favArray));
 
-    if (!localStorage.getItem('idImagenes') || (localStorage.getItem('idImagenes') != '[]')) { 
-        if (elementFav.classList.contains('elementoActivo')) {
-            elementFav.classList.remove('elementoActivo');
-            elementFav.setAttribute('src', 'img/desktop/DAY/icons/icon-fav.svg');
-            let idActualizados= idImagenes.filter((x)=> {
-                return x != idImagen;
-            });
-            localStorage.setItem('idImagenes', JSON.stringify(idActualizados));
-
-            let localNuevo= favArray.filter((x)=> x !=id); //Saco del array en localStorage
-            //el elemento que coincida con el id seleccionado
-            localStorage.setItem('favArray', JSON.stringify(localNuevo)); //Nuevo array en localStorage 
-            //con el id seleccionado eliminado
-            
-        } else {
-            elementFav.classList.add('elementoActivo');
-            elementFav.setAttribute('src', 'img/desktop/DAY/icons/icon-fav-active.svg');
-        }
-    } else {
-        localStorage.removeItem('idImagenes');
-    }
-    if(typeof(mostrarFav) == 'function') { 
-        mostrarFav(0, 12);
+    if(typeof(cargarPagina) == 'function') { 
+       cargarPagina();
     } 
+   
 }
