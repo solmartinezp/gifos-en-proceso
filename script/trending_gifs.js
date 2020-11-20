@@ -23,7 +23,7 @@ fetch (url_trending)
             //Agregar hover
             let divHover= document.createElement('div');
             let txt="<div class='icons-hover'><img id='imagen"+[x]+"' class='icons-gif' onclick='agregando("+ 'event,"' + g.data[x].id + '"' +")' src='img/desktop/DAY/icons/icon-fav.svg' alt='Icon Fav'/>" + 
-                                "<img class='icons-gif' src='img/desktop/DAY/icons/icon-download.svg' alt='Icon Fav'/>" +
+                                "<img class='icons-gif' onclick='downloadGif("+ 'event,"' + g.data[x].images.original.url + '"' +")' src='img/desktop/DAY/icons/icon-download.svg' alt='Icon Fav'/>" +
                                 "<img class='icons-gif' onclick='expandir("+ 'event,"' + g.data[x].id + '"' +")' src='img/desktop/DAY/icons/icon-max-normal.svg' alt='Icon Fav'/></div>" +
                                 "<div class='text-hover'> <h3>User</h3>" +
                                 "<h2>"+g.data[x].title+"</h2></div>";
@@ -33,7 +33,9 @@ fetch (url_trending)
         }
         if (!localStorage.getItem('idImagenes') || localStorage.getItem('idImagenes') == '[]') {
             console.log('no hay corazones violetas');
-            mostrarFav(0, 12);
+                if(typeof(mostrarFav) == 'function') { 
+                    mostrarFav(0, 12);
+                }
             } else {
                 console.log('si hay corazones violetas');    
                 gifFaveados();
@@ -73,5 +75,74 @@ function gifFaveados() {
            elementFaveado.classList.add('elementoActivo');
        }
     }
-    mostrarFav(0, 12);
+    if(typeof(mostrarFav) == 'function') { 
+        mostrarFav(0, 12);
+    }
+}
+
+function agregando(event, id) {
+    console.log('agregando gif');
+    //CAMBIAR EL ICON CUANDO ESTA MARCADO COMO FAVORITO
+    let elementFav= event.target; 
+    let idImagen= elementFav.getAttribute('id'); 
+    let idImagenes= localStorage.getItem('idImagenes');
+       if (idImagenes == null) {
+           idImagenes= [];
+       } else {
+           idImagenes= JSON.parse(idImagenes);
+       }
+       let repetidoId= idImagenes.includes(idImagen);
+       if (repetidoId) {
+        console.log('ya ta');
+        nuevoImagenes= idImagenes.filter((x)=> x!=idImagen);
+        localStorage.setItem('idImagenes', JSON.stringify(nuevoImagenes));
+       } else {
+        idImagenes.push(idImagen); //Previene la repetición de IDs en el array
+        localStorage.setItem('idImagenes', JSON.stringify(idImagenes));  
+       }
+        
+        
+    //GUARDAR EL ID DE LOS GIFS MARCADOS COMO FAVORITO
+    favArray= localStorage.getItem('favArray');
+    if (!favArray || favArray == "[]") {
+        favArray= [];
+    } else {
+        if (typeof(favoritoSection) != 'undefined') {
+            favoritoSection.innerHTML= "";
+        } 
+        favArray= JSON.parse(favArray);
+    }
+    let repetidoIdFav= favArray.includes(id);
+       if (repetidoIdFav) {
+        console.log('ya ta');
+       } else {
+        favArray.push(id);
+       }
+
+    localStorage.setItem('favArray', JSON.stringify(favArray));
+
+    if (!localStorage.getItem('idImagenes') || (localStorage.getItem('idImagenes') != '[]')) { 
+        if (elementFav.classList.contains('elementoActivo')) {
+            elementFav.classList.remove('elementoActivo');
+            elementFav.setAttribute('src', 'img/desktop/DAY/icons/icon-fav.svg');
+            let idActualizados= idImagenes.filter((x)=> {
+                return x != idImagen;
+            });
+            localStorage.setItem('idImagenes', JSON.stringify(idActualizados));
+
+            let localNuevo= favArray.filter((x)=> x !=id); //Saco del array en localStorage
+            //el elemento que coincida con el id seleccionado
+            localStorage.setItem('favArray', JSON.stringify(localNuevo)); //Nuevo array en localStorage 
+            //con el id seleccionado eliminado
+            
+        } else {
+            elementFav.classList.add('elementoActivo');
+            elementFav.setAttribute('src', 'img/desktop/DAY/icons/icon-fav-active.svg');
+        }
+    } else {
+        localStorage.removeItem('idImagenes');
+    }
+    if(typeof(mostrarFav) == 'function') { 
+        mostrarFav(0, 12);
+    } 
 }

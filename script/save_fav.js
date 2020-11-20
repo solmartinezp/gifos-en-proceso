@@ -2,72 +2,15 @@ let favoritoSection= document.getElementById('favoritos-section');
 let favVacio= document.getElementById('principal_sin_contenido');
 let botonesPagina= document.getElementById('botones-pagina');
 
-function agregando(event, id) {
-    console.log('agregando gif');
-    //CAMBIAR EL ICON CUANDO ESTA FAVEADO
-    let elementFav= event.target; 
-    let idImagen= elementFav.getAttribute('id'); 
-    let idImagenes= localStorage.getItem('idImagenes');
-       if (idImagenes == null) {
-           idImagenes= [];
-       } else {
-           idImagenes= JSON.parse(idImagenes);
-       }
-       let repetidoId= idImagenes.includes(idImagen);
-       if (repetidoId) {
-        console.log('ya ta');
-       } else {
-        idImagenes.push(idImagen); //Previene la repetición de IDs en el array
-       }
-        
-       localStorage.setItem('idImagenes', JSON.stringify(idImagenes));    
-
-    //GUARDAR EL ID DE LOS GIFS FAVEADOS
-    favArray= localStorage.getItem('favArray');
-    if (!favArray || favArray == "[]") {
-        favArray= [];
-    } else {
-        favoritoSection.innerHTML= "";
-        favArray= JSON.parse(favArray);
-    }
-    let repetidoIdFav= favArray.includes(id);
-       if (repetidoIdFav) {
-        console.log('ya ta');
-       } else {
-        favArray.push(id);
-       }
-
-    localStorage.setItem('favArray', JSON.stringify(favArray));
-
-    if (!localStorage.getItem('idImagenes') || (localStorage.getItem('idImagenes') != '[]')) { 
-        if (elementFav.classList.contains('elementoActivo')) {
-            elementFav.classList.remove('elementoActivo');
-            elementFav.setAttribute('src', 'img/desktop/DAY/icons/icon-fav.svg');
-            let idActualizados= idImagenes.filter((x)=> {
-                return x != idImagen;
-            });
-            localStorage.setItem('idImagenes', JSON.stringify(idActualizados));
-
-            let localNuevo= favArray.filter((x)=> x !=id); //Saco del array en localStorage
-            //el elemento que coincida con el id seleccionado
-            localStorage.setItem('favArray', JSON.stringify(localNuevo)); //Nuevo array en localStorage 
-            //con el id seleccionado eliminado
-            
-        } else {
-            elementFav.classList.add('elementoActivo');
-            elementFav.setAttribute('src', 'img/desktop/DAY/icons/icon-fav-active.svg');
-        }
-    } else {
-        localStorage.removeItem('idImagenes');
-    }
-
-    mostrarFav(0, 12);    
-}
+//Aca tendría que estar la funcion agregando en el caso de que magicamente
+//me deje de funcionar todo
 
 function mostrarFav (offset, limit) { 
     if (!localStorage.getItem('favArray') || localStorage.getItem('favArray')== "[]") {
         //Decir que no agregaste ningun favorito
         favVacio.style.display= 'flex';
+        botonesPagina.style.display= "none";
+        botonesPagina.classList.remove('active');
     } else {
         favVacio.style.display= 'none';
         favoritoSection.innerHTML= "";
@@ -127,7 +70,7 @@ function mostrarFav (offset, limit) {
                 //AGREGAR HOVER
                 let divHover= document.createElement('div');
                 let txt="<div class='icons-hover'><img class='icons-gif active' onclick='eliminarFav("+ 'event,"' + id_gif + '"' +")' src='img/desktop/DAY/icons/icon-fav-active.svg' alt='Icon Fav'/>" + 
-                                "<img class='icons-gif' src='img/desktop/DAY/icons/icon-download.svg' alt='Icon Fav'/>" +
+                                "<img class='icons-gif' onclick='downloadGif("+ 'event,"' + src + '"' +")' src='img/desktop/DAY/icons/icon-download.svg' alt='Icon Fav'/>" +
                                 "<img class='icons-gif' onclick='expandir("+ 'event,"' + id_gif + '"' +")' src='img/desktop/DAY/icons/icon-max-normal.svg' alt='Icon Fav'/></div>" +
                                 "<div class='text-hover'> <h3>User</h3>" +
                                 "<h2>"+names+"</h2></div>";
@@ -145,9 +88,6 @@ function eliminarFav(event, id) {
     let localActual= localStorage.getItem('favArray');
     let imagenA= event.target; //Accedo a la etiqueta que contiene la función elimnarFav
 
-    //Eliminar del localStorage el corazón violeta que indica que un elemento ha sido marcado como favorito
-    
-    //
     if (imagenA.classList.contains('active')) { //Chequeo si la etiqueta contiene la clase 'active'
         let favArrayLleno= localActual.split(','); //El localStorage te devuelve un string
         let myRegex= /[a-z0-9]/gi; //Por eso lo paso a array
@@ -163,7 +103,17 @@ function eliminarFav(event, id) {
         favoritoSection.innerHTML= "";
         if (!localStorage.getItem('favArray') || localStorage.getItem('favArray') == '[]') {
             botonesPagina.style.display= "none";
+            botonesPagina.classList.remove('active');
         }
+    
+    //Eliminar del localStorage el corazón violeta que indica que 
+    // un elemento ha sido marcado como favorito
+        
+    // nuevoImagenes= idImagenes.filter((x)=> x!=idImagen);
+    // localStorage.setItem('idImagenes', JSON.stringify(nuevoImagenes));
+    
+    //
+
         mostrarFav(0, 12);
     }
 

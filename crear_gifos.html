@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://www.WebRTC-Experiment.com/RecordRTC.js"></script>
     <title>Crear Gifos</title>
 </head>
 <body>
@@ -41,23 +42,29 @@
                 <div class="marco tres"></div>
                 <div class="marco cuatro"></div>
                 <div class="main">
-                    <h1 class="title">Aquí podrás </h1>
-                    <h1 class="title">crear tus propios <span class="gifos-span">GIFOS</span></h1>
-                    <h3>¡Crea tu GIFO en sólo 3 pasos!</h3>
-                    <h3>(sólo necesitas una cámara para grabar un video)</h3>
+                    <div id="empezando-a-grabar">
+                        <video id="video"/>
+                    </div>
+                    
+                    <div id="sin-grabar">
+                        <h1 class="title">Aquí podrás </h1>
+                        <h1 class="title">crear tus propios <span class="gifos-span">GIFOS</span></h1>
+                        <h3>¡Crea tu GIFO en sólo 3 pasos!</h3>
+                        <h3>(sólo necesitas una cámara para grabar un video)</h3>
+                    </div>
+                    
+                    
                 </div>
             </div>
                 <div class="footer-crear">
                     <div class="numeros">
-                        <a>1</a>
-                        <a>2</a>
-                        <a>3</a>
+                        <a href="">1</a>
+                        <a href="">2</a>
+                        <a href="">3</a>
                     </div>
                     <div class="barra"></div>
-                    <button class="boton">COMENZAR</button>
-                
+                    <button id="botonParaComenzar" class="boton">COMENZAR</button>
             </div>
-           
         </div>
 
         <div class="icon-pelicula">
@@ -83,6 +90,6 @@
 
     </footer>
     <script src='script/cambia-modo.js'></script>
-    <script src='script/hover_img.js'></script>
+    <script src='script/crear_gifos.js'></script>
 </body>
 </html>
