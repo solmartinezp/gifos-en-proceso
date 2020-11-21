@@ -13,7 +13,7 @@
 <body>
     <header>
         <div class="logo">
-            <a href="index.html"><img class="logo-img" src="img/mobile/DAY/logo-mobile.svg" alt="Logo"/></a>
+            <a href="index.html"><img class="logo-img" src="img/mobile/DAY/c-logo-mobile.svg" alt="Logo"/></a>
         </div>
 
         <nav>
@@ -43,7 +43,12 @@
                 <div class="marco cuatro"></div>
                 <div class="main">
                     <div id="empezando-a-grabar">
-                        <video id="video"/>
+                        <video id="video"/></video>
+                        <img id="previewGif" src="" alt="Gif Creado"/>
+                        <div id="gifOverlay">
+                            <img id="imgOverlay" src="img/desktop/DAY/loader.svg" alt="Icon Upload"/>
+                            <h2 id="textOverlay">Estamos subiendo tu GIFO</h2>
+                        </div>
                     </div>
                     
                     <div id="sin-grabar">
@@ -60,6 +65,8 @@
                         <a href="" id="paso-1">1</a>
                         <a href="" id="paso-2">2</a>
                         <a href="" id="paso-3">3</a>
+                        <div id="timer"></div>
+                        <button id="repetir">REPETIR CAPTURA</button>
                     </div>
                     <div class="barra"></div>
                     <button id="botonParaComenzar" class="boton">COMENZAR</button>
@@ -92,6 +99,7 @@
 
     </footer>
     <script src='script/cambia-modo.js'></script>
+    <script src='script/download_gif.js'></script>
     <script src='script/crear_gifos.js'></script>
 </body>
 </html>

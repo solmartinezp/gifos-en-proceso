@@ -1,4 +1,7 @@
 let video= document.getElementById('video');
+let previewGif= document.getElementById('previewGif');
+let gifOverlay= document.getElementById('gifOverlay');
+let repetir= document.getElementById('repetir');
 let botonComenzar= document.getElementById('botonParaComenzar');
 let botonGrabar= document.getElementById('botonParaGrabar');
 let botonFinalizar= document.getElementById('botonParaFinalizar');
@@ -10,8 +13,81 @@ let pasoDos= document.getElementById('paso-2');
 let pasoTres= document.getElementById('paso-3');
 var constraints = { audio: false, video: { height: {max: 480} } }; 
 let recorder;
+let timer= document.getElementById('timer');
+let form = new FormData();
+const api_key= 'tYfyavSpnKco2La9SHFSM4tERSdov3EK';
 
-botonComenzar.addEventListener('click', () => {
+//FALTA EL CONTADOR DE SEGUNDOS Y EL BOTON DE REPETIR CAPTURA
+
+//Setup del timer
+var tiempoInicial;
+var tiempoAct;
+var diferencia;
+var tInterval;
+var tiempoGuardado;
+var pausado = 0;
+var running = 0;
+
+//Cuando aprieto grabar
+function empezarTimer(){
+  if(!running){
+    tiempoInicial = new Date().getTime();
+    tInterval = setInterval(mostrarTime, 1000);   
+ 
+    pausado = 0;
+    running = 1;
+  }
+}
+
+//Cuando aprieto finalizar
+function pausarTimer(){
+  if (!diferencia){
+    // si el timer nunca empezó, no pasa nada cuando aprieto pausa
+  } else if (!pausado) {
+    clearInterval(tInterval);
+    tiempoGuardado = diferencia;
+    pausado = 1;
+    running = 0;
+  } else {
+    // si el timer ya estaba pausado, cuando vuelvo a clickear, empezar de nuevo
+    empezarTimer();
+  }
+}
+
+
+//Cuando aprieto subir gifos o cuando aprieto repetir captura
+function resetTimer(){
+  clearInterval(tInterval);
+  tiempoGuardado = 0;
+  diferencia = 0;
+  pausado = 0;
+  running = 0;
+}
+
+function mostrarTime(){
+  tiempoAct = new Date().getTime();
+  if (tiempoGuardado){
+    diferencia = (tiempoAct - tiempoInicial) + tiempoGuardado;
+  } else {
+    diferencia =  tiempoAct - tiempoInicial;
+  }
+
+  var horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+  var segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+  
+  horas = (horas < 10) ? "0" + horas : horas;
+  minutos = (minutos < 10) ? "0" + minutos : minutos;
+  segundos = (segundos < 10) ? "0" + segundos : segundos;
+  timer.innerHTML = horas + ':' + minutos + ':' + segundos;
+  timer.style.display= "inline-block";
+}
+
+// Fin del setup timer
+
+botonComenzar.addEventListener('click', getStreamAndRecord);
+
+function getStreamAndRecord() {
   botonComenzar.style.display= "none";
   //Cambio texto
   let txt=  "<h1 class='title'> ¿Nos das acceso <br/> a tu cámara? </h1>" + 
@@ -22,34 +98,19 @@ botonComenzar.addEventListener('click', () => {
   //Cambio botones
   pasoUno.style.color= "white";
   pasoUno.style.background= "#572EE5";
-  getMedia(constraints);
-});
 
-botonGrabar.addEventListener('click', ()=> {
-  botonGrabar.style.display="none";
-  botonFinalizar.style.display="inline-block";
-  //algo 
-  recorder.startRecording();
-  console.log('empezamos');
-});
-
-botonFinalizar.addEventListener('click', () => {
-  botonFinalizar.style.display="none";
-  botonSubir.style.display="inline-block";
-  recorder.stopRecording(()=> {
-    //mostrar boton de repetir captura
-    console.log('paramos');
-  })
-})
-
-
-//Pedir permiso para acceder a la cámara
-async function getMedia(constraints) {
-    let stream;
-    try {
-        stream = await navigator.mediaDevices.getUserMedia(constraints);
+  navigator.mediaDevices
+    .getUserMedia({ audio: false, video: { height: { max: 480 } } })
+    .then(function (stream) {
         divSinVideo.style.display= "none";
         divVideo.style.display= "inline-block";
+        botonGrabar.style.display= "inline-block";
+        pasoDos.style.color= "white";
+        pasoDos.style.background= "#572EE5";
+
+        pasoUno.style.color= "#572EE5";
+        pasoUno.style.background= "white";
+
         video.srcObject = stream;
         video.play();
 
@@ -63,37 +124,132 @@ async function getMedia(constraints) {
            console.log('started')
          },
         });
-
-        botonGrabar.style.display= "inline-block";
-        pasoDos.style.color= "white";
-        pasoDos.style.background= "#572EE5";
-
-        pasoUno.style.color= "#572EE5";
-        pasoUno.style.background= "white";
-
-      } catch(err) {
-          console.log('bueno pasó algo: '+ err);
-      }
+    });
 
 }
-//Capturar la grabación
 
-// Para comenzar a interactuar con la librería, debes crear un objeto recorder. 
-// Este objeto recibirá opciones y cuenta con varios métodos que puedes utilizar para grabar:
+botonGrabar.addEventListener('click', empezarGrabacion);
+
+function empezarGrabacion() {
+  empezarTimer();
+  timer.style.display= "inline-block";
+  botonGrabar.style.display="none";
+  botonFinalizar.style.display="inline-block";
+
+  recorder.startRecording();
+  console.log('empezamos');
+}
+
+botonFinalizar.addEventListener('click', finalizarGrabacion);
+
+function finalizarGrabacion () {
+  pausarTimer();
+  botonFinalizar.style.display="none";
+  botonSubir.style.display="inline-block";
+  timer.style.display="none";
+  recorder.stopRecording( ()=> {
+    repetir.style.display= "inline-block";
+    video.style.display= "none";
+    previewGif.style.display="inline-block";
+
+    let blob = recorder.getBlob();
+    let urlNuevo= URL.createObjectURL(recorder.getBlob());
+    previewGif.setAttribute('src', urlNuevo);
+
+    form.append("file", recorder.getBlob(), "myGifo.gif");
+    form.append("api_key", api_key);
+    
+    console.log(form.get('file'))
+    console.log('paramos');
+    resetTimer();
+  });
+}
+
+repetir.addEventListener('click', resetGrabacion);
+
+function resetGrabacion() {
+    recorder.reset();
+    timer.innerHTML= "00:00:00";
+    timer.style.display= "none";
+    repetir.style.display= "none";
+    botonFinalizar.style.display="inline-block";
+    botonSubir.style.display="none";
+
+    video.style.display= "inline-block";
+    previewGif.style.display="none";
+
+    empezarGrabacion();
+}
 
 
 
-// Cuando el usuario aprieta el botón ‘grabar’, debes permitirle crear un nuevo recorder 
-// (o sea que le dices que inicie la grabación con startRecording);
-// Cuando apriete el botón 'grabar' hay que agregar un contador de segundos
+botonSubir.addEventListener('click', subirGif);
 
+function subirGif() {
+  //Cerrar la cámara
+  stream = video.srcObject;
+  tracks = stream.getTracks();
+  tracks.forEach(function(track) {
+    track.stop();
+  });
+  video.srcObject = null;
+  
+  pasoTres.style.color= "white";
+  pasoTres.style.background= "#572EE5";
 
+  pasoDos.style.color= "#572EE5";
+  pasoDos.style.background= "white";
 
-// cuando aprieta el botón ‘stop’, debes llamar a stopRecording 
-// pasándole como callback tu función anteriormente definida.
-// Cuando se apriete el botón 'finalizar' el contador de segundos tiene que cambiar
-// a un 'titulo' (mismo formato que <li> en menú) que diga "REPETIR CAPTURA" y asumo que
-//habrá que llamar de nuevo a la función startRecording y no hacer nada con lo que capturó
+  repetir.style.display= "none";
 
-//Cuando se apriete el botón 'finalizar' cambia y dice 'subir gifo' y se pasa a la pag 3
+  gifOverlay.style.display= "flex";
 
+  fetch("https://upload.giphy.com/v1/gifs", {
+    method: "POST",
+    body: form,
+  })
+    .then((resp) => {
+      return resp.json();
+    })
+    .then((j) => {
+      console.log(j.data);
+      let gifoId = j.data.id;
+
+      //Nuevo gif creado
+      let imgOverlay= document.getElementById('imgOverlay');
+      let textOverlay= document.getElementById('textOverlay');
+
+      imgOverlay.style.animation= "none";
+      imgOverlay.setAttribute('src', 'img/desktop/DAY/ok.svg');
+      textOverlay.innerHTML= "GIFO subido con éxito";
+
+      let overlayPlus= document.createElement('div');
+      overlayPlus.classList.add('icons-gif');
+      let txt= '<img id="downloadImg" src="img/desktop/DAY/icons/icon-download.svg" onclick="downloadGif('+ "event,'" + gifoId + "'" +')" alt="Download" />' + 
+              '<img id="linkImg" onclick="copiarLink()" src= "img/desktop/DAY/icon-link-normal.svg"/> ';
+
+      overlayPlus.innerHTML= txt;
+      gifOverlay.insertBefore(overlayPlus, imgOverlay);
+
+      // Guardar nuevo gif en localStorage
+    let gifCreados= localStorage.getItem('gifCreados');
+    if (!gifCreados || gifCreados == "[]") {
+        gifCreados= [];
+    } else {
+        gifCreados= JSON.parse(gifCreados);
+    }
+    
+    gifCreados.push(gifoId);
+    localStorage.setItem('gifCreados', JSON.stringify(gifCreados));
+    })
+    .catch((err) => console.log(err));
+}
+
+// function copiarLink(url) {
+//   try {
+//     copyToClipboard(url);
+//     alert('Enlace copiado con éxito!');
+//   } catch (e) {
+//     alert('Error al copiar el enlace');
+//   }
+// }

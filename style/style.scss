@@ -166,7 +166,7 @@ body {
         text-align: center;
         line-height: 30px;
     }
-    img {
+    .titleImg {
         margin-top: 30px;
     }
 
@@ -187,6 +187,90 @@ body {
             max-width: 470px;
         }
     }
+
+    .misgifos_section {
+        display: flex; 
+        height: fit-content;
+        flex-direction: column;
+        margin: 40px 0;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        .foto-s2 {
+            position: absolute;
+            width: 100%;
+            min-width:100px;
+            height: 100%;
+            top: 0;
+            left: 0;
+            margin: unset;
+        }
+        .gifoContainer{
+            position: relative;
+            min-width: 250px;
+            max-width: 300px;
+            height: 200px;
+            margin: 10px;
+        }
+        .gifoContainer:after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left:0;
+            transition: .2s linear;
+            opacity: 0;
+            background-color:rgba(86, 46, 229, 0.7);
+            cursor: pointer;
+        }
+
+        .gifoContainer:hover:after {
+            opacity: 1;
+        }
+
+        .icons-gifos:nth-of-type(1):hover {
+            content: url('../img/desktop/DAY/icons/icon-trash-hover.svg');
+        }
+
+
+        .gifoContainer:hover .hoverContent{
+            display: block;
+            cursor: pointer;
+          }
+    }
+
+    .botones-pagina {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 50px;
+        .boton {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-family: $myFont;
+                color: $violeta;
+                font-weight: bold;
+                border-radius: 30px;
+                border: 1px solid $violeta;
+                padding: 15px;
+                height: 30px;
+                width: 30px;
+                font-size: 13px;
+                letter-spacing: 0;
+                text-align: center;
+                margin-left: 10px;
+            }
+            .boton:hover {
+                color: white;
+                background: $violeta;
+                cursor: pointer;
+            }
+            .boton:focus {
+                outline: unset;
+            }
+        }
 
 
 }
@@ -314,9 +398,40 @@ body {
                 font-size: 18px;
                 text-decoration: none;
             }
-            a:hover {
-                color: white;
-                background: $violeta;
+            #timer {
+                align-self: center;
+                position: absolute;
+                right: 20%;
+                font-family: $myFont;
+                color: $violeta;
+                font-weight: bold;
+                font-size: 15px;
+                letter-spacing: 0;
+                text-align: center;
+                line-height: 22px;
+                display: none;
+            }
+            #repetir {
+                display: none;
+                width: fit-content;
+                align-self: center;
+                font-family: $myFont;
+                color: $violeta;
+                font-weight: bold;
+                border-radius: 30px;
+                font-size: 13px;
+                letter-spacing: 0;
+                text-align: center;
+                position: absolute;
+                border: unset;
+                border-radius: 0;
+                right: 20%;
+            }
+            #repetir:focus {
+                outline: unset;
+            }
+            #repetir:hover {
+                border-bottom: 2px solid $celeste;
                 cursor: pointer;
             }
         }
@@ -327,6 +442,7 @@ body {
             border-radius: 50px;
             margin: 20px 0;
         }
+
         .boton {
             font-family: $myFont;
             color: $violeta;
@@ -342,6 +458,9 @@ body {
             color: white;
             background: $violeta;
             cursor: pointer;
+        }
+        .boton:focus {
+            outline: unset;
         }
         #botonParaGrabar {
             display: none;
@@ -361,13 +480,62 @@ body {
     }
     #empezando-a-grabar{
         position: absolute; 
-        width: 100%;
-        height: 100%;
+        width: 440px;
     }
     #video {
         width: inherit;
         height: inherit;
     }
+    #previewGif {
+        width: inherit;
+        height: inherit; 
+        position: relative;
+        display: none;
+    }
+    #gifOverlay{
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: -1px;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #572ee599;
+        h2 {
+            font-family: $myFont;
+            padding: 15px;
+            font-size: 15px;
+            color: #FFFFFF;
+            text-align: center;
+        }
+        #imgOverlay {
+            width: 25px;
+            animation: rotar 2s linear infinite forwards;
+        }
+    }
+    .icons-gif {
+        position: absolute;
+        top:0;
+        right: 0;
+        margin: 15px;
+        img {
+            margin-left: 5px;
+        }
+        img:first-of-type:hover {
+            content: url(../img/desktop/DAY/icons/icon-download-hover.svg);
+        }
+        img:nth-of-type(2):hover {
+            content: url(../img/desktop/DAY/icon-link-hover.svg);
+        }
+    }
+    
+}
+
+@keyframes rotar {
+    0%   {transform: rotate(0deg)}
+    100% {transform: rotate(360deg)}
 }
 
 //FIN CREAR GIFOS
@@ -393,7 +561,7 @@ body {
         border-top: 5px solid black;
         .logo {
             img {
-                content: url('../img/mobile/NIGHT/logo-mobile-modo-noct.svg');
+                content: url('../img/mobile/NIGHT/c-logo-mobile-modo-noct.svg');
             }
         }
         nav {         

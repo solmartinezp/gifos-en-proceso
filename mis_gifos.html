@@ -7,12 +7,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://www.WebRTC-Experiment.com/RecordRTC.js"></script>
     <title>Mis GIFOS</title>
 </head>
-<body>
+<body onload="cargarPaginaGifos()">
     <header>
         <div class="logo">
-            <a href="index.html"><img class="logo-img" src="img/mobile/DAY/logo-mobile.svg" alt="Logo"/></a>
+            <a href="index.html"><img class="logo-img" src="img/mobile/DAY/c-logo-mobile.svg" alt="Logo"/></a>
         </div>
 
         <nav>
@@ -30,10 +31,15 @@
     </header>
 
     <section class="gifos">
-        <img src='img/mobile/icon-mis-gifos.svg' alt='Mis GIFOS'/>
+        <img class="titleImg" src='img/mobile/icon-mis-gifos.svg' alt='Mis GIFOS'/>
         <h1 class="title">Mis GIFOS</h1>
 
-        <div class="principal_sin_contenido">
+        <div class="misgifos_section" id="misgifos_section"></div>
+        <div class="botones-pagina" id="botones-pagina">
+            <button id="pagina1" class="boton">1</button>
+        </div>
+        
+        <div class="principal_sin_contenido" id="principal_sin_contenido">
             <img src="img/mobile/icon-mis-gifos-sin-contenido.svg" alt="Sin contenido"/>
             <h2>¡Anímate a crear tu primer GIFO!</h2>
         </div>
@@ -78,9 +84,6 @@
                 </div> 
                 <div class="masExpandido-icons">
                     <a class='icons-gif'>
-                        <img class='favImg' src='img/desktop/DAY/icons/icon-fav.svg' alt='Icon Fav'/>
-                    </a>
-                    <a class='icons-gif'>
                         <img src='img/desktop/DAY/icons/icon-download.svg' alt='Icon Fav'/>
                     </a>
                 </div>
@@ -88,8 +91,8 @@
         </div>
     </div>
 
-    
     <script src='script/cambia-modo.js'></script>
+    <script src='script/traer-gifos.js'></script>
     <script src='script/trending_gifs.js'></script>
     <script src='script/download_gif.js'></script>
     <script src='script/expandir_gif.js'></script>
