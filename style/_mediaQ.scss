@@ -66,25 +66,97 @@
         }
     }
 
-    #result-container {
-        flex-direction: row;
-        position: relative;
-        .title {
-            width: 100%;
-            position: absolute;
-            top: 0;
-        }
-        .containerImg {
-            margin-top: 50px;
-            clear: both;
-        }
-    }
-
     //FAVORITOS 
 
     .favoritos {
         #favoritos-section {
             flex-direction: row;
+
+        .favContainer{
+                position: relative;
+                min-width: 250px;
+                max-width: 300px;
+                height: 200px;
+                margin: 10px;
+        }
+        
+        .favContainer:after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left:0;
+            transition: .2s linear;
+            opacity: 0;
+            background-color:rgba(86, 46, 229, 0.7);
+            cursor: pointer;
+        }
+
+        .favContainer:hover:after {
+            opacity: 1;
+        }
+
+        .favContainer .active {
+            width: 34px;
+            background-color:rgb(201, 196, 234);
+            padding: 6px;
+            border-radius: 10px;
+        }
+
+        .active:hover {
+            content: unset;
+        }
+
+        .hoverContentF {
+            position: absolute;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            display: none;
+            .icons-hover{
+                display: flex;
+                justify-content: flex-end;
+                margin: 10px;
+                img {
+                    margin-left: 5px;
+                }
+                img:nth-of-type(1):hover:not(.elementoActivo):not(.icons-gifos){
+                    content: url('../img/desktop/DAY/icons/icon-fav-hover.svg');
+                }
+                img:nth-of-type(2):hover {
+                    content:url('../img/desktop/DAY/icons/icon-download-hover.svg');
+                }
+                img:nth-of-type(3):hover {
+                    content:url('../img/desktop/DAY/icons/icon-max-hover.svg');
+                }
+                .elementoActivo {
+                    width: 34px;
+                    background-color:rgb(201, 196, 234);
+                    padding: 6px;
+                    border-radius: 10px;
+                }
+                .text-hover {
+                    color: white;
+                    font-family: $secondFont;
+                    font-weight: bolder;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    justify-content: center;
+                    text-align: left;
+                    margin: 95px 10px 0px;
+                }
+            }
+        }
+
+        .favContainer:hover .hoverContentF{
+            display: block;
+            cursor: pointer;
+          }
         }
         
      }
@@ -101,10 +173,168 @@
 
     .section-one {
         margin-top: 60px;
-    }
+        #result-container {
+            flex-direction: row;
+            position: relative;
+            .title {
+                width: 100%;
+                position: absolute;
+                top: 0;
+            }
+            .containerSearchImg {
+                margin-top: 50px;
+                clear: both;
+            }
+            .containerSearchImg .hoverContentS { 
+                    position: absolute;
+                    z-index: 10;
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    display: none;
+                    .text-hover {
+                        color: white;
+                        font-family: $secondFont;
+                        font-weight: bolder;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-start;
+                        justify-content: center;
+                        text-align: left;
+                        margin: 95px 10px 0px;
+                    }
+            .icons-hover{
+                display: flex;
+                justify-content: flex-end;
+                margin: 10px;
+                img {
+                    margin-left: 5px;
+                }
+                img:nth-of-type(1):hover:not(.elementoActivo):not(.icons-gifos){
+                    content: url('../img/desktop/DAY/icons/icon-fav-hover.svg');
+                }
+                img:nth-of-type(2):hover {
+                    content:url('../img/desktop/DAY/icons/icon-download-hover.svg');
+                }
+                img:nth-of-type(3):hover {
+                    content:url('../img/desktop/DAY/icons/icon-max-hover.svg');
+                }
+                .elementoActivo {
+                    width: 34px;
+                    background-color:rgb(201, 196, 234);
+                    padding: 6px;
+                    border-radius: 10px;
+                }
+               
+            }
+
+        }
+            .containerSearchImg:after {
+                content: "";
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left:0;
+                transition: .2s linear;
+                opacity: 0;
+                background-color:rgba(86, 46, 229, 0.7);
+                cursor: pointer;
+            }
+        
+            .containerSearchImg:hover:after {
+                opacity: 1;
+            }
+        
+            .containerSearchImg .active img:first-of-type {
+                width: 34px;
+                background-color:rgb(201, 196, 234);
+                padding: 6px;
+                border-radius: 10px;
+            }
+        
+            .containerSearchImg:hover .hoverContentS{
+                display: block;
+                cursor: pointer;
+              }
+        }
+    
+    
+      
+}
 
     .section-two {
         .trending-two { 
+            .containerImg:after {
+                content: "";
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left:0;
+                transition: .2s linear;
+                opacity: 0;
+                background-color:rgba(86, 46, 229, 0.7);
+                cursor: pointer;
+            }
+
+            .containerImg:hover:after {
+                opacity: 1;
+            }
+
+            .containerImg:hover .hoverContent{
+                    display: block;
+                    cursor: pointer;
+                  }  
+                
+                .hoverContent {
+                    position: absolute;
+                    z-index: 10;
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    display: none;
+                    .icons-hover{
+                        display: flex;
+                        justify-content: flex-end;
+                        margin: 10px;
+                        img {
+                            margin-left: 5px;
+                        }
+                        img:nth-of-type(1):hover:not(.elementoActivo):not(.icons-gifos){
+                            content: url('../img/desktop/DAY/icons/icon-fav-hover.svg');
+                        }
+                        img:nth-of-type(2):hover {
+                            content:url('../img/desktop/DAY/icons/icon-download-hover.svg');
+                        }
+                        img:nth-of-type(3):hover {
+                            content:url('../img/desktop/DAY/icons/icon-max-hover.svg');
+                        }
+                        .elementoActivo {
+                            width: 34px;
+                            background-color:rgb(201, 196, 234);
+                            padding: 6px;
+                            border-radius: 10px;
+                        }
+                        .text-hover {
+                            color: white;
+                            font-family: $secondFont;
+                            font-weight: bolder;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: flex-start;
+                            justify-content: center;
+                            text-align: left;
+                            margin: 96px 10px 0px;
+                        }
+                    }
+                }
+
+            //termina hover
             .slider-and-gifs {
                 justify-content: center;
             }

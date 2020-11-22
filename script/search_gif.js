@@ -131,12 +131,17 @@ function mostrarResultados(offset) {
                     let divPorPag= 12;
                     for (let x= 0; x<divPorPag; x++) {
                         let containerImg= document.createElement('div');
-                        containerImg.classList.add('containerImg');
+                        containerImg.classList.add('containerSearchImg');
                         let giph= document.createElement('img');
                         giph.classList.add('foto-s2');
                         giph.setAttribute('src', j.data[x].images.original.url);
                         resultContainer.appendChild(containerImg);
                         containerImg.appendChild(giph);
+
+                        if (window.screen.width < 900) {
+                            containerImg.setAttribute('onclick', 'expandir(event,"' + j.data[x].id + '")');
+                        } else {
+                            console.log('chauchis')
                         //Agregar hover
                         let divHover= document.createElement('div');
                             let txt="<div class='icons-hover'><img id='imagen"+[x]+"' class='icons-gif' onclick='agregando("+ 'event,"' + j.data[x].id + '"' +")' src='img/desktop/DAY/icons/icon-fav.svg' alt='Icon Fav'/>" + 
@@ -145,10 +150,11 @@ function mostrarResultados(offset) {
                                             "<div class='text-hover'> <h3>User</h3>" +
                                             "<h2>"+j.data[x].title+"</h2></div>";
                             divHover.innerHTML= txt;
-                            divHover.classList.add("hoverContent");
+                            divHover.classList.add("hoverContentS");
                             containerImg.appendChild(divHover);
                             console.log('creo el coso');
-                    }
+                        }
+                }
                     
                     if (!botonesPagina.classList.contains('active')) {
                         botonesPagina.classList.add('active');

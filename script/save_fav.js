@@ -78,9 +78,12 @@ function mostrarFav (offset, limit) {
                 giph.classList.add('foto-s2');
                 giph.setAttribute('src', src);
                 favoritoSection.appendChild(favContainer);
-                favContainer.appendChild(giph);   
+                favContainer.appendChild(giph);
 
-                //AGREGAR HOVER
+                if (window.screen.width < 900) {
+                    favContainer.setAttribute('onclick', 'expandir(event,"' + id_gif + '")');
+                } else { 
+                     //AGREGAR HOVER
                 let divHover= document.createElement('div');
                 let txt="<div class='icons-hover'><img class='icons-gif active' onclick='eliminarFav("+ 'event,"' + id_gif + '"' +")' src='img/desktop/DAY/icons/icon-fav-active.svg' alt='Icon Fav'/>" + 
                                 "<img class='icons-gif' onclick='downloadGif("+ '"' + src + '"' +")' src='img/desktop/DAY/icons/icon-download.svg' alt='Icon Fav'/>" +
@@ -88,8 +91,10 @@ function mostrarFav (offset, limit) {
                                 "<div class='text-hover'> <h3>User</h3>" +
                                 "<h2>"+names+"</h2></div>";
                 divHover.innerHTML= txt;
-                divHover.classList.add("hoverContent");
-                favContainer.appendChild(divHover);   
+                divHover.classList.add("hoverContentF");
+                favContainer.appendChild(divHover);
+                }
+                   
                 })
             .catch(err=> console.log(err));
         }  

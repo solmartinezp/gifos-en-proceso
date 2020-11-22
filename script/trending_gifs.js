@@ -6,17 +6,6 @@ let trending_gif= document.getElementById('trending-gif');
 
 function getTrendings(limit, offset) { 
     console.log('probando');
-    //Antes de crear el hover voy a tener que chequear si el localStorage tiene 
-    //elementos faveados. 
-    // Declaro una varaible let src; sin ningún valor. 
-    //Si localStorage no tiene nada, entonces cambio la variable src a la imagen del
-    // corazón vacío, SINO cambio la variable src a la imagen del corazón pintado
-    //y le agrego src como variable al hover 
-
-    //Esto lo tengo que hacer en todas las funciones que dibujen un hover:
-    // getTrendings()
-    // mostrarFav()
-    // buscar en search_gif
     let url_trending = `https://api.giphy.com/v1/gifs/trending?api_key=${api_key}&limit=${limit}&offset=${offset}`; 
     fetch (url_trending)
         .then ( r => {
@@ -31,7 +20,10 @@ function getTrendings(limit, offset) {
                 giph.setAttribute('src', g.data[x].images.original.url);
                 trending_gif.appendChild(containerImg);
                 containerImg.appendChild(giph);
-                
+
+                if (window.screen.width < 900) {
+                    containerImg.setAttribute('onclick', 'expandir(event,"' + g.data[x].id + '")');
+                } else {
                 //Agregar hover
                 let divHover= document.createElement('div');
                 let sourceFavorito;
@@ -59,13 +51,14 @@ function getTrendings(limit, offset) {
                 let txt="<div class='icons-hover'><img id='imagen"+[x]+"' class='icons-gif "+ clase+"' onclick='agregando("+ 'event,"' + g.data[x].id + '"' +")' src='"+ sourceFavorito+ "' alt='Icon Fav'/>" + 
                                     "<img class='icons-gif' onclick='downloadGif("+ '"' + g.data[x].images.original.url + '"' +")' src='img/desktop/DAY/icons/icon-download.svg' alt='Icon Fav'/>" +
                                     "<img class='icons-gif' onclick='expandir("+ 'event,"' + g.data[x].id + '"' +")' src='img/desktop/DAY/icons/icon-max-normal.svg' alt='Icon Fav'/></div>" +
-                                    "<div class='text-hover'> <h3>User</h3>" +
+                                    "<div class='text-hover'> <h2>User</h2>" +
                                     "<h2>"+g.data[x].title+"</h2></div>";
                     divHover.innerHTML= txt;
                     divHover.classList.add("hoverContent");
                     containerImg.appendChild(divHover);
                     console.log('me termine de dibujar');
             }
+        }
         })
         .catch ( e => {
             console.log(e);
