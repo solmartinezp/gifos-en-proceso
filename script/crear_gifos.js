@@ -225,8 +225,8 @@ function subirGif() {
 
       let overlayPlus= document.createElement('div');
       overlayPlus.classList.add('icons-gif');
-      let txt= '<img id="downloadImg" src="img/desktop/DAY/icons/icon-download.svg" onclick="downloadGif('+ "event,'" + gifoId + "'" +')" alt="Download" />' + 
-              '<img id="linkImg" onclick="copiarLink()" src= "img/desktop/DAY/icon-link-normal.svg"/> ';
+      let txt= '<img id="downloadImg" src="img/desktop/DAY/icons/icon-download.svg" onclick="downloadGifCreado('+ "'" + gifoId + "'" +')" alt="Download" />' + 
+              '<img id="linkImg" onclick="copiarLink('+ "'" + gifoId + "'" +')" src= "img/desktop/DAY/icon-link-normal.svg"/> ';
 
       overlayPlus.innerHTML= txt;
       gifOverlay.insertBefore(overlayPlus, imgOverlay);
@@ -245,11 +245,38 @@ function subirGif() {
     .catch((err) => console.log(err));
 }
 
-// function copiarLink(url) {
-//   try {
-//     copyToClipboard(url);
-//     alert('Enlace copiado con éxito!');
-//   } catch (e) {
-//     alert('Error al copiar el enlace');
-//   }
-// }
+function downloadGifCreado (id) {
+  let url_download= `https://api.giphy.com/v1/gifs/${id}?api_key=${api_key}`;
+  fetch(url_download)
+    .then(r=> r.json())
+    .then(j=> {
+      console.log(j.data);
+      let src= j.data.images.original.url;
+      downloadGif(src);
+    })
+    .catch((e)=> console.log(e));
+}
+
+function copiarLink(id) {
+  let url_copy= `https://api.giphy.com/v1/gifs/${id}?api_key=${api_key}`;
+  fetch(url_copy)
+    .then(r=> r.json())
+    .then(j=> {
+      let link= j.data.url;
+
+      let hiddentextarea = document.createElement('textarea');
+      document.body.appendChild(hiddentextarea);
+      hiddentextarea.value = link;
+      hiddentextarea.select();
+      let exitoso= document.execCommand('copy');
+      if (exitoso) {
+        alert('Enlace copiado con éxito!');
+      }
+      else {
+        alert('Error en copiar el enlace');
+      }
+
+      document.body.removeChild(hiddentextarea);
+    })
+    .catch((e)=> console.log(e));
+}

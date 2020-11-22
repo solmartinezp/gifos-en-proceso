@@ -82,7 +82,7 @@ function mostrarGifos (offset, limit) {
                 //AGREGAR HOVER
                 let divHover= document.createElement('div');
                 let txt="<div class='icons-hover'><img class='icons-gifos' onclick='eliminarGifo("+ 'event,"' + id_gif + '"' +")' src='img/desktop/DAY/icons/icon-trash-normal.svg' alt='Icon Fav'/>" + 
-                                "<img class='icons-gifos' onclick='downloadGif("+ 'event,"' + src + '"' +")' src='img/desktop/DAY/icons/icon-download.svg' alt='Icon Fav'/>" +
+                                "<img class='icons-gifos' onclick='downloadGif("+ '"' + src + '"' +")' src='img/desktop/DAY/icons/icon-download.svg' alt='Icon Fav'/>" +
                                 "<img class='icons-gifos' onclick='expandir("+ 'event,"' + id_gif + '"' +")' src='img/desktop/DAY/icons/icon-max-normal.svg' alt='Icon Fav'/></div>" +
                                 "<div class='text-hover'> <h3>User</h3>" +
                                 "<h2>"+names+"</h2></div>";

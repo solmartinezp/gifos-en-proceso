@@ -3,6 +3,7 @@ let closeBtn= document.getElementById('close-btn');
 let gifExpandido= document.getElementsByClassName('gifExpandido')[0];
 let tituloGif= document.getElementsByClassName('nombreGif')[0];
 let iconsGif= document.getElementsByClassName('masExpandido-icons');
+let downloadOnly= document.getElementsByClassName('onlyDownload');
 
 async function expandir(event, id) {
     divModal.style.display="flex";
@@ -16,11 +17,17 @@ async function expandir(event, id) {
     gifExpandido.setAttribute('src', sourceGif);
     gifExpandido.style.display= "inline-block";
     tituloGif.innerHTML= nombre;
+    
+    let chequearSiEsTrending= event.target;
     let favA= iconsGif[0].firstElementChild;
+    if (chequearSiEsTrending.classList.contains('icons-gifos')) { //Si el gif está en la sección de Mis Gifos
+        favA.style.display= "none"; //Le saco la opción de agregar a favoritos
+    } else {  //Si el gif está en la sección de Trendings:
     favA.addEventListener('click', (e) => {
         let eventoFav= e.target;
         agregando(eventoFav, idParaFav);
     });
+    }
 }
 
 /*Cerrar modal*/
