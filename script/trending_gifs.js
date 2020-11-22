@@ -30,7 +30,6 @@ function getTrendings(limit, offset) {
                 let clase;
                 if (!localStorage.getItem('favArray') || localStorage.getItem('favArray')== '[]') { //Si no hay nada guardado en Fav
                     sourceFavorito= "img/desktop/DAY/icons/icon-fav.svg";
-                    clase= '';
                 } else {
                     let favArray= localStorage.getItem('favArray');
                     let favArrayLleno= favArray.split(','); //El localStorage te devuelve un string
@@ -42,9 +41,10 @@ function getTrendings(limit, offset) {
                     let incluidoId= filtrado.includes(g.data[x].id);
                     if (incluidoId) {
                         sourceFavorito= "img/desktop/DAY/icons/icon-fav-active.svg";
+                        clase= "elementoActivo";
                     } else {
-                        clase= '';
                         sourceFavorito= "img/desktop/DAY/icons/icon-fav.svg";
+                        clase= "";
                     } 
                 }
 

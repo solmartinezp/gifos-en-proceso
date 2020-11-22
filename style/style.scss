@@ -62,6 +62,17 @@ body {
             max-width: 300px;
             height: 200px;
             margin: 10px;
+            .text-hover {
+                color: white;
+                font-family: $secondFont;
+                font-weight: bolder;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: center;
+                text-align: left;
+                margin: 95px 10px 0px;
+            }
         }
           
     }

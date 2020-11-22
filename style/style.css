@@ -146,16 +146,21 @@ body {
           flex-direction: row;
 }
 
+.masExpandido-icons .icons-gif .active {
+  width: 30px;
+  margin-top: 5px;
+}
+
 .masExpandido-icons .icons-gif img {
   width: 40px;
   cursor: pointer;
 }
 
-.masExpandido-icons img:nth-of-type(1):hover:not(.active):not(.onlyDownload) {
+.masExpandido-icons .favImg:hover:not(.active) {
   content: url("../img/desktop/DAY/icons/icon-fav-hover.svg");
 }
 
-.masExpandido-icons img:nth-of-type(2):hover {
+.masExpandido-icons .dwnld:hover {
   content: url("../img/desktop/DAY/icons/icon-download-hover.svg");
 }
 
@@ -645,6 +650,27 @@ header nav .checkbox-button:checked ~ .label-icon .span-icon:after {
   max-width: 300px;
   height: 200px;
   margin: 10px;
+}
+
+.favoritos #favoritos-section .favContainer .text-hover {
+  color: white;
+  font-family: "Roboto", sans-serif;
+  font-weight: bolder;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-align: left;
+  margin: 95px 10px 0px;
 }
 
 .favoritos .principal_sin_contenido {
@@ -1773,7 +1799,7 @@ footer .bottom {
   body .favoritos #favoritos-section .hoverContentF .icons-hover img {
     margin-left: 5px;
   }
-  body .favoritos #favoritos-section .hoverContentF .icons-hover img:nth-of-type(1):hover:not(.elementoActivo):not(.icons-gifos) {
+  body .favoritos #favoritos-section .hoverContentF .icons-hover img:nth-of-type(1):hover:not(.active):not(.elementoActivo):not(.icons-gifos) {
     content: url("../img/desktop/DAY/icons/icon-fav-hover.svg");
   }
   body .favoritos #favoritos-section .hoverContentF .icons-hover img:nth-of-type(2):hover {
