@@ -124,6 +124,10 @@ body {
         .boton:focus {
             outline: unset;
         }
+        .pintando {
+            color: white;
+            background: $violeta;
+        }
     }
 
 }
@@ -304,6 +308,11 @@ body {
             .title {
                 text-align: center;
                 line-height: 35px;
+                max-width: 500px;
+                font-family: $myFont;
+                font-weight: bold;
+                font-size: 25px;
+                color: $violeta;
             }
             h3 {
                 font-family: $secondFont;

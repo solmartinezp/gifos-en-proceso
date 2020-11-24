@@ -17,8 +17,6 @@ let timer= document.getElementById('timer');
 let form = new FormData();
 const api_key= 'tYfyavSpnKco2La9SHFSM4tERSdov3EK';
 
-//FALTA EL CONTADOR DE SEGUNDOS Y EL BOTON DE REPETIR CAPTURA
-
 //Setup del timer
 var tiempoInicial;
 var tiempoAct;
@@ -280,3 +278,12 @@ function copiarLink(id) {
     })
     .catch((e)=> console.log(e));
 }
+
+function cargar() {
+  if (window.screen.width < 900) {
+    window.location = "index.html";
+  }
+}
+
+cargar(); //Si se está en version mobile, te redirige al index porque 
+//no está habilitada la opción de crear gif en mobile

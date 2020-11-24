@@ -12,7 +12,7 @@ function getTrendings(limit, offset) {
             return r.json();
         })
         .then ( g => {
-            for (let x= 0; x<g.data.length; x++) {
+            for (let x= 0; x< g.data.length; x++) {
                 let containerImg= document.createElement('div');
                 containerImg.classList.add('containerImg');
                 let giph= document.createElement('img');
@@ -51,7 +51,7 @@ function getTrendings(limit, offset) {
                 let txt="<div class='icons-hover'><img id='imagen"+[x]+"' class='icons-gif "+ clase+"' onclick='agregando("+ 'event,"' + g.data[x].id + '"' +")' src='"+ sourceFavorito+ "' alt='Icon Fav'/>" + 
                                     "<img class='icons-gif' onclick='downloadGif("+ '"' + g.data[x].images.original.url + '"' +")' src='img/desktop/DAY/icons/icon-download.svg' alt='Icon Fav'/>" +
                                     "<img class='icons-gif' onclick='expandir("+ 'event,"' + g.data[x].id + '"' +")' src='img/desktop/DAY/icons/icon-max-normal.svg' alt='Icon Fav'/></div>" +
-                                    "<div class='text-hover'> <h2>User</h2>" +
+                                    "<div class='text-hover'> <h2>"+ g.data[x].username+"</h2>" +
                                     "<h2>"+g.data[x].title+"</h2></div>";
                     divHover.innerHTML= txt;
                     divHover.classList.add("hoverContent");
@@ -121,5 +121,6 @@ function agregando(event, id) {
     if(typeof(cargarPagina) == 'function') { 
        cargarPagina();
     } 
+    location.reload();
    
 }

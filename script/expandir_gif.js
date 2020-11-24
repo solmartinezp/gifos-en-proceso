@@ -73,6 +73,9 @@ async function expandir(event, id) {
             if (!favArr || favArr == "[]") {
                 favArr= [];
             } else {
+                if (typeof(favoritoSection) != 'undefined') {
+                    favoritoSection.innerHTML= "";
+                } 
                 favArr= JSON.parse(favArr);
             }
             let repetidoIdFav= favArr.includes(id);
@@ -80,6 +83,7 @@ async function expandir(event, id) {
                 console.log('ya ta');
                 let nuevoArr= favArr.filter((x)=> x != id);
                 favArr= nuevoArr;
+
             } else {
                 favArr.push(id);
             }

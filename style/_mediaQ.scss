@@ -149,6 +149,11 @@
                     justify-content: center;
                     text-align: left;
                     margin: 95px 10px 0px;
+                    h3 {
+                        font-weight: lighter;
+                        margin-bottom: 4px;
+                    }
+                    
                 }
             }
         }
@@ -204,6 +209,10 @@
                         justify-content: center;
                         text-align: left;
                         margin: 95px 10px 0px;
+                        h3 {
+                            font-weight: lighter;
+                            margin-bottom: 4px;
+                        }
                     }
             .icons-hover{
                 display: flex;
@@ -330,6 +339,10 @@
                             justify-content: center;
                             text-align: left;
                             margin: 96px 10px 0px;
+                            h3 {
+                                font-weight: lighter;
+                                margin-bottom: 4px;
+                            }
                         }
                     }
                 }

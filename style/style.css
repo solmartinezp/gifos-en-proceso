@@ -744,6 +744,11 @@ header nav .checkbox-button:checked ~ .label-icon .span-icon:after {
   outline: unset;
 }
 
+.favoritos .botones-pagina .pintando {
+  color: white;
+  background: #572EE5;
+}
+
 .gifos {
   -ms-grid-row: 2;
   -ms-grid-column: 1;
@@ -995,6 +1000,11 @@ header nav .checkbox-button:checked ~ .label-icon .span-icon:after {
 .crear .main-crear .cuadrado .main .title {
   text-align: center;
   line-height: 35px;
+  max-width: 500px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+  font-size: 25px;
+  color: #572EE5;
 }
 
 .crear .main-crear .cuadrado .main h3 {
@@ -1834,6 +1844,10 @@ footer .bottom {
     text-align: left;
     margin: 95px 10px 0px;
   }
+  body .favoritos #favoritos-section .hoverContentF .icons-hover .text-hover h3 {
+    font-weight: lighter;
+    margin-bottom: 4px;
+  }
   body .favoritos #favoritos-section .favContainer:hover .hoverContentF {
     display: block;
     cursor: pointer;
@@ -1899,6 +1913,10 @@ footer .bottom {
             justify-content: center;
     text-align: left;
     margin: 95px 10px 0px;
+  }
+  body .section-one #result-container .containerSearchImg .hoverContentS .text-hover h3 {
+    font-weight: lighter;
+    margin-bottom: 4px;
   }
   body .section-one #result-container .containerSearchImg .hoverContentS .icons-hover {
     display: -webkit-box;
@@ -2036,6 +2054,10 @@ footer .bottom {
             justify-content: center;
     text-align: left;
     margin: 96px 10px 0px;
+  }
+  body .section-two .trending-two .hoverContent .icons-hover .text-hover h3 {
+    font-weight: lighter;
+    margin-bottom: 4px;
   }
   body .section-two .trending-two .slider-and-gifs {
     -webkit-box-pack: center;

@@ -1,9 +1,7 @@
 let favoritoSection= document.getElementById('favoritos-section');
 let favVacio= document.getElementById('principal_sin_contenido');
 let botonesPagina= document.getElementById('botones-pagina');
-
-//Aca tendría que estar la funcion agregando en el caso de que magicamente
-//me deje de funcionar todo
+let paginaUno= document.getElementById('pagina1');
 
 function cargarPagina() { 
 if (!localStorage.getItem('favArray') || localStorage.getItem('favArray')== "[]") {
@@ -22,11 +20,12 @@ if (!localStorage.getItem('favArray') || localStorage.getItem('favArray')== "[]"
         filtrado.push(x.match(myRegex).join(''));
     });
     mostrarFav(0, 12);
-}
+    }
 
 }
 
 function mostrarFav (offset, limit) { 
+    favoritoSection.innerHTML= "";
     let favALleno= localStorage.getItem('favArray');
     let favArrayLleno= favALleno.split(','); //El localStorage te devuelve un string por eso lo paso a array
     let myRegex= /[a-z0-9]/gi; 
@@ -34,70 +33,129 @@ function mostrarFav (offset, limit) {
     favArrayLleno.filter((x) => {
         filtrado.push(x.match(myRegex).join(''));
     });
-        let src;
-        let names;
-        let id_gif;
+       
+        //Tengo que hacer un string con todos los IDs sin "" ni [];
+        //Le paso ese ID al URL de fetch muchos IDs
+        //`https://api.giphy.com/v1/gifs?api_key=${apiKey}&ids=${array}`;
 
-        if (!botonesPagina.classList.contains('active')) {  
-            botonesPagina.classList.add('active');
-            botonesPagina.style.display= "flex";
-            let offsetOriginal= 0;
-            let cantidadDePag= filtrado.length/12;
-            if (cantidadDePag<1) {
-                console.log('solo 1 pagina, mostrá solo 12 gifs');
-            } else {
-                for(let y=1; y<cantidadDePag; y++) {
-                    offsetOriginal += 12;
-                    let boton= document.createElement('button');
-                    boton.setAttribute('id', 'pagina'+(y+1));
-                    boton.classList.add('boton');
-                    boton.setAttribute('onclick', 'mostrarFav('+offsetOriginal+', 24)');
-                    boton.innerHTML= (y+1);
-                    botonesPagina.appendChild(boton);             
-                 }       
-            }
+        let idMas= JSON.parse(favALleno);
+       
+        let url_id= `https://api.giphy.com/v1/gifs?api_key=${api_key}&ids=${idMas}`;
+        let offSet= offset; 
+        if (offSet == 0) {
+            paginaUno.classList.add('pintando');
+        } else {
+            paginaUno.classList.remove('pintando');
         }
-            let limite;
-            if (filtrado.length < limit) {
-                limite= filtrado.length;
-            } else {
-                limite= limit;
-            }
+        
+        let lengthId= idMas.length;
 
-            for (let x=offset; x<limite; x++) {               
-            let url_id= `https://api.giphy.com/v1/gifs/${filtrado[x]}?api_key=${api_key}`;
-            fetch(url_id)
+        if (!botonesPagina.classList.contains('active')) {
+                botonesPagina.classList.add('active');
+                let offsetOriginal= 0;
+                let cantidadDePag= Math.ceil(lengthId/12);
+                console.log(cantidadDePag);
+                        
+                if (lengthId > 12) {
+                    for(let y=1; y<cantidadDePag; y++) {
+                        offsetOriginal += 12;
+                        let boton= document.createElement('button');
+                        boton.setAttribute('id', 'pagina'+(y+1));
+                        boton.classList.add('boton');
+                        boton.setAttribute('onclick', 'mostrarMasFav('+offsetOriginal+', 12)');
+                        boton.innerHTML= (y+1);
+                        botonesPagina.appendChild(boton);             
+                        botonesPagina.style.display= "flex";     
+                        if (offsetOriginal== offset ) {
+                            boton.classList.add('pintado');
+                        } else {
+                            boton.classList.remove('pintando');
+                            }  
+                        }        
+                            
+                } else {
+                    botonesPagina.style.display="flex"; 
+                }
+            }
+        
+        fetch(url_id)
             .then(r=> r.json())
             .then(j=> {
-                names= j.data.title;
-                id_gif= filtrado[x];
-                src= j.data.images.original.url;
-                let favContainer= document.createElement('div');
-                favContainer.classList.add('favContainer');
-                let giph= document.createElement('img');
-                giph.classList.add('foto-s2');
-                giph.setAttribute('src', src);
-                favoritoSection.appendChild(favContainer);
-                favContainer.appendChild(giph);
+                let names;
+                let id_gif;
+                let src;
+                let user;
 
-                if (window.screen.width < 900) {
-                    favContainer.setAttribute('onclick', 'expandir(event,"' + id_gif + '")');
-                } else { 
-                     //AGREGAR HOVER
-                let divHover= document.createElement('div');
-                let txt="<div class='icons-hover'><img class='icons-gif active' onclick='eliminarFav("+ 'event,"' + id_gif + '"' +")' src='img/desktop/DAY/icons/icon-fav-active.svg' alt='Icon Fav'/>" + 
-                                "<img class='icons-gif' onclick='downloadGif("+ '"' + src + '"' +")' src='img/desktop/DAY/icons/icon-download.svg' alt='Icon Fav'/>" +
-                                "<img class='icons-gif' onclick='expandir("+ 'event,"' + id_gif + '"' +")' src='img/desktop/DAY/icons/icon-max-normal.svg' alt='Icon Fav'/></div>" +
-                                "<div class='text-hover'> <h3>User</h3>" +
-                                "<h2>"+names+"</h2></div>";
-                divHover.innerHTML= txt;
-                divHover.classList.add("hoverContentF");
-                favContainer.appendChild(divHover);
+         //Cuando son mas de 12 gifs dibujo con un for hasta 12.
+        if (lengthId-offSet > 12) {
+                //dibujeeee
+                for (let x= 0; x<12; x++) {
+                    console.log('dibujandooo hasta 12!!!!!! :)')
+                    names= j.data[x].title; //j.data.title;
+                    id_gif=  j.data[x].id; //filtrado[x]; 
+                    src= j.data[x].images.original.url; //j.data.images.original.url;
+                    user= j.data[x].username;
+
+
+                    let favContainer= document.createElement('div');
+                    favContainer.classList.add('favContainer');
+                    let giph= document.createElement('img');
+                    giph.classList.add('foto-s2');
+                    giph.setAttribute('src', src);
+                    favoritoSection.appendChild(favContainer);
+                    favContainer.appendChild(giph);
+    
+                    if (window.screen.width < 900) {
+                        favContainer.setAttribute('onclick', 'expandir(event,"' + id_gif + '")');
+                    } else { 
+                         //AGREGAR HOVER
+                    let divHover= document.createElement('div');
+                    let txt="<div class='icons-hover'><img class='icons-gif active' onclick='eliminarFav("+ 'event,"' + id_gif + '"' +")' src='img/desktop/DAY/icons/icon-fav-active.svg' alt='Icon Fav'/>" + 
+                                    "<img class='icons-gif' onclick='downloadGif("+ '"' + src + '"' +")' src='img/desktop/DAY/icons/icon-download.svg' alt='Icon Fav'/>" +
+                                    "<img class='icons-gif' onclick='expandir("+ 'event,"' + id_gif + '"' +")' src='img/desktop/DAY/icons/icon-max-normal.svg' alt='Icon Fav'/></div>" +
+                                    "<div class='text-hover'> <h3>"+user+"</h3>" +
+                                    "<h2>"+names+"</h2></div>";
+                    divHover.innerHTML= txt;
+                    divHover.classList.add("hoverContentF");
+                    favContainer.appendChild(divHover);
+                    }
                 }
-                   
-                })
+            
+        } else {
+            //dibujo desde el valor pasado hasta el length del array de IDs
+                for (let x= offSet; x<lengthId; x++) {
+                    names= j.data[x].title; //j.data.title;
+                    id_gif=  j.data[x].id; //filtrado[x]; 
+                    src= j.data[x].images.original.url; //j.data.images.original.url;
+
+                    let favContainer= document.createElement('div');
+                    favContainer.classList.add('favContainer');
+                    let giph= document.createElement('img');
+                    giph.classList.add('foto-s2');
+                    giph.setAttribute('src', src);
+                    favoritoSection.appendChild(favContainer);
+                    favContainer.appendChild(giph);
+    
+                    if (window.screen.width < 900) {
+                        favContainer.setAttribute('onclick', 'expandir(event,"' + id_gif + '")');
+                    } else { 
+                         //AGREGAR HOVER
+                    let divHover= document.createElement('div');
+                    let txt="<div class='icons-hover'><img class='icons-gif active' onclick='eliminarFav("+ 'event,"' + id_gif + '"' +")' src='img/desktop/DAY/icons/icon-fav-active.svg' alt='Icon Fav'/>" + 
+                                    "<img class='icons-gif' onclick='downloadGif("+ '"' + src + '"' +")' src='img/desktop/DAY/icons/icon-download.svg' alt='Icon Fav'/>" +
+                                    "<img class='icons-gif' onclick='expandir("+ 'event,"' + id_gif + '"' +")' src='img/desktop/DAY/icons/icon-max-normal.svg' alt='Icon Fav'/></div>" +
+                                    "<div class='text-hover'> <h3>User</h3>" +
+                                    "<h2>"+names+"</h2></div>";
+                    divHover.innerHTML= txt;
+                    divHover.classList.add("hoverContentF");
+                    favContainer.appendChild(divHover);
+                    }
+                }
+        }
+
+        })
             .catch(err=> console.log(err));
-        }  
+        // }  
                 
     
 }
@@ -127,9 +185,13 @@ function eliminarFav(event, id) {
             botonesPagina.style.display= "none";
             botonesPagina.classList.remove('active');
         }
-        
-        
         cargarPagina();
+        location.reload();
     }
 
+}
+
+function mostrarMasFav(offset, limit) {
+    favoritoSection.innerHTML= "";
+    mostrarFav(offset, 12);
 }

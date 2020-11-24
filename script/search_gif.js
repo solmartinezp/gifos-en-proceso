@@ -147,7 +147,7 @@ function mostrarResultados(offset) {
                             let txt="<div class='icons-hover'><img id='imagen"+[x]+"' class='icons-gif' onclick='agregando("+ 'event,"' + j.data[x].id + '"' +")' src='img/desktop/DAY/icons/icon-fav.svg' alt='Icon Fav'/>" + 
                                             "<img class='icons-gif' onclick='downloadGif("+ '"' + j.data[x].images.original.url + '"' +")' src='img/desktop/DAY/icons/icon-download.svg' alt='Icon Fav'/>" +
                                             "<img class='icons-gif' onclick='expandir("+ 'event,"' + j.data[x].id + '"' +")' src='img/desktop/DAY/icons/icon-max-normal.svg' alt='Icon Fav'/></div>" +
-                                            "<div class='text-hover'> <h3>User</h3>" +
+                                            "<div class='text-hover'> <h3>"+ j.data[x].username+"</h3>" +
                                             "<h2>"+j.data[x].title+"</h2></div>";
                             divHover.innerHTML= txt;
                             divHover.classList.add("hoverContentS");

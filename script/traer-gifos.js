@@ -35,6 +35,7 @@ function mostrarGifos (offset, limit) {
         let src;
         let names;
         let id_gif;
+        let user;
 
     if (!botonesPagina.classList.contains('active')) {  
         botonesPagina.classList.add('active');
@@ -71,6 +72,9 @@ function mostrarGifos (offset, limit) {
                 names= j.data.title;
                 id_gif= filtradoGifos[x];
                 src= j.data.images.original.url;
+                user= j.data[x].username;
+
+
                 let gifoContainer= document.createElement('div');
                 gifoContainer.classList.add('gifoContainer');
                 let giph= document.createElement('img');
@@ -84,7 +88,7 @@ function mostrarGifos (offset, limit) {
                 let txt="<div class='icons-hover'><img class='icons-gifos' onclick='eliminarGifo("+ 'event,"' + id_gif + '"' +")' src='img/desktop/DAY/icons/icon-trash-normal.svg' alt='Icon Fav'/>" + 
                                 "<img class='icons-gifos' onclick='downloadGif("+ '"' + src + '"' +")' src='img/desktop/DAY/icons/icon-download.svg' alt='Icon Fav'/>" +
                                 "<img class='icons-gifos' onclick='expandir("+ 'event,"' + id_gif + '"' +")' src='img/desktop/DAY/icons/icon-max-normal.svg' alt='Icon Fav'/></div>" +
-                                "<div class='text-hover'> <h3>User</h3>" +
+                                "<div class='text-hover'> <h3>"+user+"</h3>" +
                                 "<h2>"+names+"</h2></div>";
                 divHover.innerHTML= txt;
                 divHover.classList.add("hoverContent");
